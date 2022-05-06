@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VendedorController;
 use Illuminate\Http\Request;
@@ -42,7 +43,16 @@ Route::put('/vendedor/{id}', [VendedorController::class, 'update']);
 
 Route::delete('/vendedor/{id}', [VendedorController::class, 'destroy']);
 
+/* --- PRODUTOS --- */
+Route::get('/produto', [ProdutoController::class, 'index']);
 
+Route::get('/produto/{id}', [ProdutoController::class, 'show']);
+
+Route::post('/produto', [ProdutoController::class, 'store']);
+
+Route::put('/produto/{id}', [ProdutoController::class, 'update']);
+
+Route::delete('/produto/{id}', [ProdutoController::class, 'destroy']);
 
 
 

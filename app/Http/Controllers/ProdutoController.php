@@ -25,7 +25,16 @@ class ProdutoController extends Controller
      */
     public function store(Request $request)
     {
-        return Produto::create($request->all());
+        if(Produto::create($request->all())) {
+            return response()->json([
+                'message' => 'Produto cadastrado com seucesso.'
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => 'Erro ao cadastrar o produto.'
+        ], 404);
+
     }
 
     /**
@@ -34,9 +43,16 @@ class ProdutoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($produto)
     {
-        return Produto::findOrFail($id);
+        $produto_selecionado = Produto::find($produto);
+        if($produto_selecionado) {
+            return $produto_selecionado;
+        }
+
+        return response()->json([
+            'message' => 'Erro ao pesquisar produto.'
+        ], 404);
     }
 
     /**
@@ -46,11 +62,17 @@ class ProdutoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $produto)
     {
-        $produto = Produto::findOrFail($id);
-        $produto->update($request->all());
-        return $produto;
+        $produto_selecionado = Produto::find($produto);
+        if($produto_selecionado) {
+            $produto_selecionado->update($request->all());
+            return $produto_selecionado;
+        }
+
+        return response()->json([
+            'message' => 'Erro ao atualizar produto.'
+        ], 404);
     }
 
     /**
@@ -59,8 +81,16 @@ class ProdutoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($produto)
     {
-        return Produto::destroy($id);
+        if(Produto::destroy($produto)) {
+            return response()->json([
+                'message' => 'Produto deletado com sucesso.'
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => 'Erro ao deletar produto.'
+        ], 404);
     }
 }

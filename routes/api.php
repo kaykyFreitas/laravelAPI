@@ -22,37 +22,50 @@ Route::get('/teste', function() {
 });
 
 /* --- USUARIO --- */
-Route::get('/usuario', [UsuarioController::class, 'index']);
+//Route::get('/usuario', [UsuarioController::class, 'index']);
 
-Route::get('/usuario/{id}', [UsuarioController::class, 'show']);
+//Route::get('/usuario/{id}', [UsuarioController::class, 'show']);
 
-Route::post('/usuario', [UsuarioController::class, 'store']);
+//Route::post('/usuario', [UsuarioController::class, 'store']);
 
-Route::put('/usuario/{id}', [UsuarioController::class, 'update']);
+//Route::put('/usuario/{id}', [UsuarioController::class, 'update']);
 
-Route::delete('/usuario/{id}', [UsuarioController::class, 'destroy']);
+//Route::delete('/usuario/{id}', [UsuarioController::class, 'destroy']);
+
 
 /* --- VENDEDOR --- */
-Route::get('/vendedor', [VendedorController::class, 'index']);
+//Route::get('/vendedor', [VendedorController::class, 'index']);
 
-Route::get('/vendedor/{id}', [VendedorController::class, 'show']);
+//Route::get('/vendedor/{id}', [VendedorController::class, 'show']);
 
-Route::post('/vendedor', [VendedorController::class, 'store']);
+//Route::post('/vendedor', [VendedorController::class, 'store']);
 
-Route::put('/vendedor/{id}', [VendedorController::class, 'update']);
+//Route::put('/vendedor/{id}', [VendedorController::class, 'update']);
 
-Route::delete('/vendedor/{id}', [VendedorController::class, 'destroy']);
+//Route::delete('/vendedor/{id}', [VendedorController::class, 'destroy']);
+
 
 /* --- PRODUTOS --- */
-Route::get('/produto', [ProdutoController::class, 'index']);
+//Route::get('/produto', [ProdutoController::class, 'index']);
 
-Route::get('/produto/{id}', [ProdutoController::class, 'show']);
+//Route::get('/produto/{id}', [ProdutoController::class, 'show']);
 
-Route::post('/produto', [ProdutoController::class, 'store']);
+//Route::post('/produto', [ProdutoController::class, 'store']);
 
-Route::put('/produto/{id}', [ProdutoController::class, 'update']);
+//Route::put('/produto/{id}', [ProdutoController::class, 'update']);
 
-Route::delete('/produto/{id}', [ProdutoController::class, 'destroy']);
+//Route::delete('/produto/{id}', [ProdutoController::class, 'destroy']);
+
+
+//Route::apiResource('usuario', UsuarioController::class);
+//Route::apiResource('produto', ProdutoController::class);
+//Route::apiResource('vendedor', VendedorController::class);
+
+Route::apiResources([
+    'usuario' => UsuarioController::class,
+    'produto' => ProdutoController::class,
+    'vendedor' => VendedorController::class,
+]);
 
 
 

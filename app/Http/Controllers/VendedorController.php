@@ -25,7 +25,15 @@ class VendedorController extends Controller
      */
     public function store(Request $request)
     {
-        return Vendedor::create($request->all());
+        if(Vendedor::create($request->all())) {
+            return response()->json([
+                'message' => 'Vendedor cadastrado com seucesso.'
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => 'Erro ao cadastrar o vendedor.'
+        ], 404);
     }
 
     /**
@@ -34,9 +42,16 @@ class VendedorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($vendedor)
     {
-        return Vendedor::findOrFail($id);
+        $vendedor_selecionado = Vendedor::find($vendedor);
+        if($vendedor_selecionado) {
+            return $vendedor_selecionado;
+        }
+
+        return response()->json([
+            'message' => 'Erro ao pesquisar vendedor.'
+        ], 404);
     }
 
     /**
@@ -46,11 +61,17 @@ class VendedorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $vendedor)
     {
-        $vendedor = Vendedor::findOrFail($id);
-        $vendedor->update($request->all());
-        return $vendedor;
+        $vendedor_selecionado = Vendedor::find($vendedor);
+        if($vendedor_selecionado) {
+            $vendedor_selecionado->update($request->all());
+            return $vendedor_selecionado;
+        }
+
+        return response()->json([
+            'message' => 'Erro ao atualizar vendedor.'
+        ], 404);
     }
 
     /**
@@ -59,8 +80,16 @@ class VendedorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($vendedor)
     {
-        return Vendedor::destroy($id);
+        if(Vendedor::destroy($vendedor)) {
+            return response()->json([
+                'message' => 'Vendedor deletado com sucesso.'
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => 'Erro ao deletar vendedor.'
+        ], 404);
     }
 }

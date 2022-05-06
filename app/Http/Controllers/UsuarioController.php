@@ -25,7 +25,15 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        return Usuario::create($request->all());
+        if(Usuario::create($request->all())) {
+            return response()->json([
+                'message' => 'Usuario cadastrado com seucesso.'
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => 'Erro ao cadastrar o usuario.'
+        ], 404);
     }
 
     /**
@@ -34,9 +42,16 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($usuario)
     {
-        return Usuario::findOrFail($id);
+        $usuario_selecionado = Usuario::find($usuario);
+        if($usuario_selecionado) {
+            return $usuario_selecionado;
+        }
+
+        return response()->json([
+            'message' => 'Erro ao pesquisar usuario.'
+        ], 404);
     }
 
     /**
@@ -46,11 +61,17 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $usuario)
     {
-        $usuario = Usuario::findOrFail($id);
-        $usuario->update($request->all());
-        return $usuario;
+        $usuario_selecionado = Usuario::find($usuario);
+        if($usuario_selecionado) {
+            $usuario_selecionado->update($request->all());
+            return $usuario_selecionado;
+        }
+
+        return response()->json([
+            'message' => 'Erro ao atualizar usuario.'
+        ], 404);
     }
 
     /**
@@ -59,8 +80,16 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($usuario)
     {
-        return Usuario::destroy($id);
+        if(Usuario::destroy($usuario)) {
+            return response()->json([
+                'message' => 'Usuario deletado com sucesso.'
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => 'Erro ao deletar usuario.'
+        ], 404);
     }
 }

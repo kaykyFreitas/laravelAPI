@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProdutoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VendedorController;
@@ -61,14 +62,23 @@ Route::get('/teste', function() {
 //Route::apiResource('produto', ProdutoController::class);
 //Route::apiResource('vendedor', VendedorController::class);
 
-Route::apiResources([
-    'usuario' => UsuarioController::class,
-    'produto' => ProdutoController::class,
-    'vendedor' => VendedorController::class,
-]);
+Route::group(['middleware' => ['auth:sanctum']], function() {
 
+    Route::apiResources([
+        'usuario' => UsuarioController::class,
+        'produto' => ProdutoController::class,
+        'vendedor' => VendedorController::class,
+    ]);
 
+    Route::post('/logout', [AuthController::class, 'logout']);
 
-Route::middleware('auth:sanctum')->get('/user', function(Request $request) {
-    return $request->user();
 });
+
+
+
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::post('/login', [AuthController::class, 'login']);
+
+
+
